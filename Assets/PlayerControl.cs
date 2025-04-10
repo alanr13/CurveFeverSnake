@@ -1,18 +1,21 @@
 using UnityEngine;
-using UnityEngine.Animations;
 
 public class PlayerControl : MonoBehaviour
 {
-    public float movementSpeed;
-    Rigidbody2D rb;
+    public float movementSpeed = 5f;
+    public float rotationSpeed = 200f;
+    public Transform head;
+
+    private Rigidbody2D rb;
     private Vector2 moveDirection;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    private Animator animator;
+
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponent<Animator>();
     }
 
-    // Update is called once per frame
     void Update()
     {
         ProcessInputs();
@@ -29,10 +32,21 @@ public class PlayerControl : MonoBehaviour
         float speedY = Input.GetAxisRaw("Vertical");
 
         moveDirection = new Vector2(speedX, speedY).normalized;
+
+        // Obracaj w prawo podczas trzymania D
+        if (Input.GetKey(KeyCode.D))
+        {
+            head.Rotate(Vector3.forward * -rotationSpeed); // obrót w prawo (wokó³ Z)
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            head.Rotate(Vector3.forward * rotationSpeed * Time.deltaTime); // obrót w lewo
+        }
     }
 
     void Move()
     {
-        rb.linearVelocity = new Vector2 (moveDirection.x * movementSpeed, moveDirection.y * movementSpeed);
+        rb.linearVelocity = new Vector2(moveDirection.x * movementSpeed, moveDirection.y * movementSpeed);
+        animator.SetTrigger("Move");
     }
 }
