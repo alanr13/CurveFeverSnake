@@ -19,11 +19,16 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     public List<Marker> markers = new List<Marker>();
 
-    public void AddToMarkersList(List<Transform> bodyParts)
+    void FixedUpdate()
     {
-        for (int i = 0; i < bodyParts.Count; i++)
+        AddToMarkersList();
+    }
+
+    public void AddToMarkersList()
+    {
+        for (int i = 0; i < 4; i++)
         {
-            markers.Add(new Marker(bodyParts[i].transform.position, bodyParts[i].transform.rotation));
+            markers.Add(new Marker(transform.position, transform.rotation));
         }
     }
 }
