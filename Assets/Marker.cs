@@ -7,18 +7,20 @@ public class NewMonoBehaviourScript : MonoBehaviour
 {
     public class Marker
     {
-        public Vector3 position;
         public Quaternion rotation;
 
-        public Marker(Vector3 position, Quaternion rotation)
+        public Marker(Quaternion rotation)
         {
-            this.position = position;
             this.rotation = rotation;
         }
     }
 
     public List<Marker> markers = new List<Marker>();
 
+    void Start()
+    {
+        
+    }
     void FixedUpdate()
     {
         AddToMarkersList();
@@ -26,9 +28,12 @@ public class NewMonoBehaviourScript : MonoBehaviour
 
     public void AddToMarkersList()
     {
-        for (int i = 0; i < 4; i++)
-        {
-            markers.Add(new Marker(transform.position, transform.rotation));
-        }
+        markers.Add(new Marker(transform.rotation));
+    }
+
+    public void ClearMarkersList()
+    {
+        markers.Clear();
+        markers.Add(new Marker(transform.rotation));
     }
 }
